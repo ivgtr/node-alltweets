@@ -1,0 +1,11 @@
+node_modules/
+lib/
+
+
+npm-debug.log*
+
+# gomi file in mac
+.DS_Store
+
+# dotenv environment variables file
+.env

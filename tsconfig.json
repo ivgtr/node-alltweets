@@ -1,0 +1,23 @@
+{
+  "target": "ESNEXT",
+  "module": "ESNext",
+  "sourceMap": true,
+  "compilerOptions": {
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "outDir": "./lib/",
+    "lib": [ "es2019" ]
+  },
+  "include": [
+    "./src/*",
+    "./src/**/*",
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "dist",
+    "__tests__"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "alltweets",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "author": "ivgtr <gear.1112t.o@gmail.com>",
+  "bin": {
+    "at": "./dist/index.js"
+  },
+  "scripts": {
+    "start": "tsc -w"
+  },
+  "keywords": [
+    "Twitter",
+    "cli"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "commander": "^6.2.0",
+    "dayjs": "^1.9.7",
+    "dotenv": "^8.2.0",
+    "twitter-d": "^0.4.0",
+    "update-notifier": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.11",
+    "@vercel/ncc": "^0.25.1",
+    "eslint": "^7.15.0",
+    "eslint-config-sumikko": "^0.1.2",
+    "husky": "^4.3.5",
+    "typescript": "^4.1.2"
+  }
+}
