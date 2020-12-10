@@ -27,69 +27,38 @@ const getLimit = (twitterToken: string): Promise<number> => {
   })
 }
 
-export const getTweets = (twitterToken: string, _params: params, json: Tweet[] = []) => {
-  console.log('start')
+export const getTweets = (twitterToken: string, params: params, json: Tweet[] = []) => {
   const headers = {
     Authorization: `Bearer ${twitterToken}`
   }
-  const params: paramsEx = {
+  const _params: paramsEx = {
     count: 2,
     exclude_replies: false,
     include_rts: false,
     tweet_mode: 'extended',
-    ..._params
+    ...params
   }
 
   return new Promise((resolve, reject) => {
-    try {
-      axios
-        .get(timelineEndPoint, { headers, params })
-        .then((response) => response.data)
-        .then((result: Tweet[]) => {
-          if (result.length) {
-            console.log(json)
+    axios
+      .get(timelineEndPoint, { headers, params: _params })
+      .then((response) => response.data)
+      .then((result: Tweet[]) => {
+        if (result.length) {
+          const _json = json.concat([...result])
 
-            const _json = json.concat([...result])
-
-            console.log(_json)
-
-            if (_json.length > 30) {
-              return resolve(_json)
-            }
-            return resolve(
-              getTweets(twitterToken, { ..._params, max_id: result.slice(-1)[0].id_str }, _json)
-            )
-          }
-          return resolve(json)
-        })
-        .catch(async (err) => {
-          console.log(err.response.data.errors[0].code)
-          const spinner = ora(`${chalk.bgRed('ERROR')} エラー内容を確認します`).start()
-          try {
-            const result = await getLimit(twitterToken)
-            if (result < 1) {
-              spinner.color = 'yellow'
-              spinner.text = `${chalk.bgYellow('STOP')} API上限により15分ほど停止します`
-              setTimeout(() => {
-                spinner.succeed('再開します')
-                resolve(getTweets(twitterToken, _params, json))
-              }, 900 * 1000)
-            } else {
-            }
-          } catch (err) {
-            console.log(err)
-          }
-        })
-    } catch (err) {
-      console.log('trycatchでキャッチしたエラ-----------------------------')
-      console.log(err)
-      console.log('trycatchでキャッチしたエラ-----------------------------終わり')
-    }
+          return resolve(_json)
+        }
+        return resolve(json)
+      })
+      .catch(async (err) => {
+        return reject(err.response.data.errors[0])
+      })
   })
 }
 
-export const getAllTweets = async (twitterToken: string, _params: params) => {
-  const onepiece = await getTweets(twitterToken, _params)
+export const getAllTweets = async (twitterToken: string, params: params) => {
+  const onepiece = await getTweets(twitterToken, params)
   // const onepiece = await getLimit(twitterToken)
   return onepiece
 }
