@@ -14,14 +14,14 @@ const main = () => {
   const cli = meow(
     `
 	Usage
-	  $ allTweets [SCREEN_NAME] <options>
+	  $ allTweets <SCREEN_NAME> [options]
 	Options
 	  $ allTweets yuzuki_roa
 	  $ allTweets yuzuki_roa -r, --retweets
     Include retweets
 	  $ allTweets yuzuki_roa -y, --yaml
     Use YAML instead of JSON
-	  $ allTweets yuzuki_roa -b [TWITTER_BEARER_TOKEN]
+	  $ allTweets yuzuki_roa -b, --bearer <TWITTER_BEARER_TOKEN>
     If you don't set TWITTER_BEARER_TOKEN in .env, specify it here
     `,
     {
