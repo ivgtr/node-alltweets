@@ -32,7 +32,7 @@ npm i alltweets --save
 
 ### 使い方
 #### Commands
-- `alltweets <SCREEN_NAME> [options]`: SCREEN_NAMEの全ツイートをダウンロードできます
+- `alltweets <SCREEN_NAME> [options]`: SCREEN_NAMEの全ツイートをダウンロードできます  
 _howto:<SCREEN_NAME>=@xxxxのxxxx部分_
 
 #### Options

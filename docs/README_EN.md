@@ -31,7 +31,7 @@ npm i alltweets --save
 
 ### Usages
 #### Commands
-- `alltweets <SCREEN_NAME> [options]`: Download <SCREEN_NAME>'s all tweets by JSON.
+- `alltweets <SCREEN_NAME> [options]`: Download <SCREEN_NAME>'s all tweets by JSON.  
 _howto:<SCREEN_NAME> = The `xxxx` part of @`xxxx`_
 
 #### Options
