@@ -1,7 +1,7 @@
 type params = {
   screen_name: string
   include_rts?: boolean
-  max_id?: number
+  max_id?: string
 }
 
 type paramsEx = params & {
