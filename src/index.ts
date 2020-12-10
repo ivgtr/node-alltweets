@@ -1,36 +1,29 @@
-import fs from 'fs'
-// import { exec } from 'child_process'
-import yaml from 'js-yaml'
-import * as dotenv from 'dotenv'
-import { getAllTweets } from './lib/twitterRequest'
+import type { Status } from 'twitter-d'
+import yamlJson from 'js-yaml'
 
-dotenv.config()
+import getAllTweets from './lib/twitterRequest'
 
-const { TWITTER_BEARER_TOKEN: bearerToken } = process.env
+const main = async (
+  token: string,
+  options: {
+    twitterId: string
+    rt: boolean
+    yaml: boolean
+  } = { twitterId: '', rt: false, yaml: false },
+  json: Status[] = []
+) => {
+  const params: params = {
+    screen_name: options.twitterId,
+    include_rts: options.rt
+  }
+  const tweetData = await getAllTweets(token, params, [])
 
-// const json = [
-//   {
-//     id: 1,
-//     gohan: 'aaa'
-//   },
-//   {
-//     id: 2,
-//     gohan: 'aaa'
-//   },
-//   {
-//     id: 3,
-//     gohan: 'aaa'
-//   }
-// ]
-const main = async (): Promise<void> => {
-  console.log('start')
-  const path = process.cwd()
-  const token = bearerToken as string
-  const json = await getAllTweets(token, { screen_name: 'yuzuki_______roa' })
+  if (options.yaml) {
+    const yamlData = yamlJson.dump(json)
+    return yamlData
+  }
 
-  fs.writeFileSync(`${path}/hoge.json`, JSON.stringify(json, null, 2))
-  const data = yaml.dump(json)
-  fs.writeFileSync(`${path}/hoge.yaml`, data)
+  return tweetData
 }
 
-export default main()
+export default main

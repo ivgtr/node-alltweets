@@ -4,7 +4,7 @@ import updateNotifier from 'update-notifier'
 import type { Package } from 'update-notifier'
 import * as dotenv from 'dotenv'
 
-import allTweets from './lib/allTweets'
+import createFile from './lib/createFile'
 
 dotenv.config()
 
@@ -28,11 +28,13 @@ const main = () => {
       flags: {
         retweets: {
           type: 'boolean',
-          alias: 'r'
+          alias: 'r',
+          default: false
         },
         yaml: {
           type: 'boolean',
-          alias: 'y'
+          alias: 'y',
+          default: false
         },
         bearer: {
           type: 'string',
@@ -54,9 +56,11 @@ const main = () => {
     console.log(`${chalk.bgRed('ERROR!')} TWITTER_BEARER_TOKENを指定してください`)
     return
   }
-  allTweets(input[0], token, flags.retweets, flags.yaml).then((path: string) => {
-    console.log(`${chalk.bgGreen('SUCCESS!')} ${path} に出力されました`)
-  })
+  createFile(token, { twitterId: input[0], rt: flags.retweets, yaml: flags.yaml }).then(
+    (path: string) => {
+      console.log(`${chalk.bgGreen('SUCCESS!')} ${path} に出力されました`)
+    }
+  )
 }
 
 ;(() => {
