@@ -4,7 +4,7 @@
   "main": "./dist/test.js",
   "author": "ivgtr <gear.1112t.o@gmail.com>",
   "bin": {
-    "at": "./dist/index.js"
+    "alltweets": "./dist/index.js"
   },
   "scripts": {
     "start": "tsc -w",
