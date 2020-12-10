@@ -65,12 +65,13 @@ const getAllTweets = async (
       twitterToken,
       json.length ? { ...params, max_id: json.slice(-1)[0].id_str } : params
     )
-    if (result.length) {
+    if (result.length > 1) {
       const _json = json.concat([...result])
       return getAllTweets(twitterToken, params, _json)
     }
     return json
   } catch (err) {
+    console.log(err.data)
     if (err.data['request']) {
       console.log(`${chalk.bgRed('ERROR!')} 引数がおかしいよ`)
       return json
