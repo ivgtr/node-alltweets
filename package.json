@@ -1,19 +1,28 @@
 {
   "name": "alltweets",
   "version": "0.1.8",
+  "description": "Downloads someone's all tweets",
   "main": "./lib/index.js",
   "bin": {
     "alltweets": "./lib/cli.js"
   },
-  "author": "ivgtr <ivgtr.me@gmail.com> (https://github.com/)",
+  "author": {
+    "name": "ivgtr",
+    "email": "ivgtr.me@gmail.com",
+    "url": "https://github.com/ivgtr"
+  },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/ivgtr/node-alltweets.git"
+    "url": "git+https://github.com/ivgtr/node-alltweets.git"
   },
   "homepage": "https://github.com/ivgtr/node-alltweets#readme",
+  "bugs": {
+    "url": "https://github.com/ivgtr/node-alltweets/issues"
+  },
   "keywords": [
-    "Twitter",
-    "cli"
+    "twitter",
+    "cli",
+    "cli-app"
   ],
   "scripts": {
     "start": "tsc -w",
