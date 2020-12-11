@@ -1,6 +1,6 @@
 {
   "name": "alltweets",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "./lib/index.js",
   "bin": {
     "alltweets": "./lib/cli.js"
