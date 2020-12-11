@@ -10,7 +10,7 @@ dotenv.config()
 
 const { TWITTER_BEARER_TOKEN: bearerToken } = process.env
 
-const command = () => {
+export default () => {
   const cli = meow(
     `
 	Usage
@@ -65,11 +65,12 @@ const command = () => {
     console.log(`${chalk.bgRed('ERROR!')} TWITTER_BEARER_TOKENを指定してください`)
     return
   }
-  createFile(token, { twitterId: input[0], rt: flags.retweets, yaml: flags.yaml }).then(
-    (path: string) => {
-      console.log(`${chalk.bgGreen('SUCCESS!')} ${path} に出力されました`)
-    }
-  )
-}
 
-export default command
+  createFile(token, { twitterId: input[0], rt: flags.retweets, yaml: flags.yaml })
+    .then((path: string) => {
+      console.log(`${chalk.bgGreen('SUCCESS!')} ${path} に出力されました`)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}

@@ -84,10 +84,8 @@ const getAllTweets = async (
     }
     return json
   } catch (err) {
-    console.log(err.data)
     if (err.data['request']) {
-      console.log(`${chalk.bgRed('ERROR!')} 引数がおかしいよ`)
-      return json
+      throw `${chalk.bgRed('ERROR!')} 引数がおかしいよ`
     } else if (err.data.errors[0].code === 88) {
       const spinner = ora(`${chalk.bgRed('WAIT')} Twitter APIの上限により15分停止します`)
       spinner.color = 'yellow'

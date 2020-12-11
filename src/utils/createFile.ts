@@ -40,14 +40,18 @@ const allTweets = async (
     include_rts: options.rt
   }
 
-  const tweetData = await getAllTweets(token, params, json)
-
-  if (options.yaml) {
-    const yamlData = yamlJson.dump(tweetData)
-    fs.writeFileSync(dirPath, yamlData)
-  } else {
-    fs.writeFileSync(dirPath, JSON.stringify(tweetData, null, 2))
-  }
+  await getAllTweets(token, params, json)
+    .then((tweetData) => {
+      if (options.yaml) {
+        const yamlData = yamlJson.dump(tweetData)
+        fs.writeFileSync(dirPath, yamlData)
+      } else {
+        fs.writeFileSync(dirPath, JSON.stringify(tweetData, null, 2))
+      }
+    })
+    .catch((err) => {
+      throw err
+    })
 
   return dirPath
 }
