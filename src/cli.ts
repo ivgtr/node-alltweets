@@ -2,6 +2,7 @@
 
 import meow from 'meow'
 import chalk from 'chalk'
+import pjson from 'pjson'
 import updateNotifier from 'update-notifier'
 import type { Package } from 'update-notifier'
 import * as dotenv from 'dotenv'
@@ -42,7 +43,8 @@ const main = () => {
           type: 'string',
           alias: 'b'
         }
-      }
+      },
+      version: pjson.version
     }
   )
 
