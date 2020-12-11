@@ -1,6 +1,6 @@
 {
   "name": "alltweets",
-  "version": "0.1.8",
+  "version": "1.0.0",
   "description": "Downloads someone's all tweets",
   "main": "./lib/index.js",
   "bin": {
