@@ -36,7 +36,7 @@ const settings = ({ name }) => {
           }
         }
       }),
-      nodeResolve({ jsnext: true }),
+      nodeResolve({ mainFields: ['module', 'jsnext'] }),
       commonjs(),
       json(),
       babel(),

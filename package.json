@@ -29,7 +29,7 @@
     "lint": "eslint *.js src/**/*.ts src/*.ts",
     "rename:cli": "node -e \"require('fs').rename('lib/index.js', 'lib/cli.js', function(err) { if (err) console.log(err); console.log('File successfully renamed!') })\"",
     "prebuild": "rimraf lib",
-    "build": "rollup -c",
+    "build": "rollup -c --exports default",
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
