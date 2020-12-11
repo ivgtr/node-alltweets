@@ -16,13 +16,13 @@ const main = () => {
 	Usage
 	  $ allTweets <SCREEN_NAME> [options]
 	Options
-	  $ allTweets yuzuki_roa
-	  $ allTweets yuzuki_roa -r, --retweets
+	  $ allTweets <SCREEN_NAME>
+	  $ allTweets <SCREEN_NAME> -r, --retweets
     Include retweets
-	  $ allTweets yuzuki_roa -y, --yaml
+	  $ allTweets <SCREEN_NAME> -y, --yaml
     Use YAML instead of JSON
-	  $ allTweets yuzuki_roa -b, --bearer <TWITTER_BEARER_TOKEN>
-    If you don't set TWITTER_BEARER_TOKEN in .env, specify it here
+	  $ allTweets <SCREEN_NAME> -b, --bearer <TWITTER_BEARER_TOKEN>
+    If you don't set <TWITTER_BEARER_TOKEN> in .env, specify it here
     `,
     {
       flags: {
@@ -47,6 +47,15 @@ const main = () => {
   updateNotifier({ pkg: cli.pkg as Package }).notify()
 
   const { input, flags } = cli
+  if (flags.h) {
+    cli.showHelp()
+    return
+  }
+  if (flags.v) {
+    cli.showVersion()
+    return
+  }
+
   if (!input[0]) {
     console.log(`${chalk.bgRed('ERROR!')} 取得するTwitterIDを入力してください`)
     return
