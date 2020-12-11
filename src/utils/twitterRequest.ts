@@ -107,9 +107,7 @@ const getAllTweets = async (
         // })
       })
     }
-    console.log(`${chalk.bgRed('ERROR!')} ${getErrorLabel(err.data.errors[0].code as number)}`)
-
-    return json
+    throw `${chalk.bgRed('ERROR!')} ${getErrorLabel(err.data.errors[0].code as number)}`
   }
 }
 
