@@ -6,11 +6,11 @@ import typescript from 'rollup-plugin-typescript2'
 import shebang from 'rollup-plugin-preserve-shebang'
 import { terser } from 'rollup-plugin-terser'
 
-export default [
-  {
-    input: './src/index.ts',
+const settings = ({ name }) => {
+  return {
+    input: `./src/${name}.ts`,
     output: {
-      file: './lib/index.js',
+      file: `./lib/${name}.js`,
       format: 'cjs'
     },
     external: [
@@ -41,40 +41,7 @@ export default [
       babel(),
       terser()
     ]
-  },
-  {
-    input: './src/cli.ts',
-    output: {
-      file: './lib/cli.js',
-      format: 'cjs'
-    },
-    external: [
-      'fs',
-      'path',
-      'axios',
-      'ora',
-      'update-notifier',
-      'chalk',
-      'ditenv',
-      'js-yaml',
-      'meow',
-      'twitter-d'
-    ],
-    plugins: [
-      shebang(),
-      typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            module: 'es2015',
-            moduleResolution: 'node'
-          }
-        }
-      }),
-      nodeResolve({ jsnext: true }),
-      commonjs(),
-      json(),
-      babel(),
-      terser()
-    ]
-  },
-]
+  }
+}
+
+export default [settings({ name: 'index' }), settings({ name: 'cli' })]

@@ -4,5 +4,8 @@
     "no-underscore-dangle":0,
     "camelcase": 0,
     "node/shebang": 0
+  },
+   "parserOptions": {
+      "sourceType": "module"
   }
 }
