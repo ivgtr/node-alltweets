@@ -1,12 +1,14 @@
 <div align="center">
   <h3 align="center">node-alltweets</h3>
-  <p align="center">Downloads someone's all tweets by Node.js</p>
+  <p align="center">Downloads someone's all tweets (last 3200 tweets) by Node.js</p>
   <p><a href="https://github.com/ivgtr/node-alltweets/blob/master/README.md" >日本語</a> | ENGLISH</p>
 </div>
 
 ---
 
 > 📌✨ inspire: https://github.com/tatzyr/alltweets
+
+- _OMG! It is a lie that getting all the tweets, so due to the API specification, only the getting last 3200 tweets..._  
 
 ## Install
 ### Global Install Usage

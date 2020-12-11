@@ -1,12 +1,14 @@
 <div align="center">
   <h3 align="center">node-alltweets</h3>
-  <p align="center">Node.jsを使って誰かの全ツイートをダウンロードします。</p>
+  <p align="center">Node.jsを使って誰かの全ツイート(直近3200ツイート)をダウンロードします。</p>
   <p>日本語 | <a href="https://github.com/ivgtr/node-alltweets/blob/master/docs/README_EN.md" >ENGLISH</a></p>
 </div>
 
 ---
 
 > 📌✨ inspire: https://github.com/tatzyr/alltweets
+
+- _全ツイートというのは嘘で、APIの仕様上直近3200ツイートしか取得できませんでした..._  
 
 ## Install
 ### Global Install Usage
