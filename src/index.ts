@@ -9,7 +9,7 @@ import getAllTweets from './utils/twitterRequest'
  * @param {{twitterId:string,rt:boolean,yaml:boolean}} options - optionsを設定
  * @returns {Promise<string | Tweet[]>} 書き出したJSONデータかYAMLデータを返す
  */
-export const main = async (
+export default async (
   token: string,
   options: {
     twitterId: string
