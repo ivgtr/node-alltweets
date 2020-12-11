@@ -1,9 +1,9 @@
 {
   "name": "alltweets",
   "version": "0.0.1",
-  "main": "./dist/test.js",
+  "main": "./lib/index.js",
   "bin": {
-    "alltweets": "./dist/index.js"
+    "alltweets": "./lib/cli.js"
   },
   "author": "ivgtr <ivgtr.me@gmail.com> (https://github.com/)",
   "repository": {
