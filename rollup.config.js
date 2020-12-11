@@ -31,7 +31,8 @@ const settings = ({ name }) => {
         tsconfigOverride: {
           compilerOptions: {
             module: 'es2015',
-            moduleResolution: 'node'
+            moduleResolution: 'node',
+            declaration: true
           }
         }
       }),
