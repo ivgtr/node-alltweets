@@ -27,8 +27,6 @@
   "dependencies": {
     "axios": "^0.21.0",
     "chalk": "^4.1.0",
-    "commander": "^6.2.0",
-    "dayjs": "^1.9.7",
     "dotenv": "^8.2.0",
     "js-yaml": "^3.14.1",
     "meow": "^8.0.0",
