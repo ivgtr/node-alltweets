@@ -2,19 +2,26 @@
   "name": "alltweets",
   "version": "0.0.1",
   "main": "./dist/test.js",
-  "author": "ivgtr <gear.1112t.o@gmail.com>",
   "bin": {
     "alltweets": "./dist/index.js"
   },
-  "scripts": {
-    "start": "tsc -w",
-    "prebuild": "rimraf lib"
+  "author": "ivgtr <ivgtr.me@gmail.com> (https://github.com/)",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ivgtr/node-alltweets.git"
   },
+  "homepage": "https://github.com/ivgtr/node-alltweets#readme",
   "keywords": [
     "Twitter",
     "cli"
   ],
-  "license": "MIT",
+  "scripts": {
+    "start": "tsc -w",
+    "prebuild:cli": "rimraf lib",
+    "prebuild:module": "rimraf lib",
+    "build:cli": "ncc build src/cli.ts --out lib --minify",
+    "build:module": "ncc build src/index.ts --out lib"
+  },
   "dependencies": {
     "axios": "^0.21.0",
     "chalk": "^4.1.0",
@@ -35,5 +42,6 @@
     "eslint-config-sumikko": "^0.1.2",
     "husky": "^4.3.5",
     "typescript": "^4.1.2"
-  }
+  },
+  "license": "MIT"
 }
