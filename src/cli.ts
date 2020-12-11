@@ -4,7 +4,7 @@ import updateNotifier from 'update-notifier'
 import type { Package } from 'update-notifier'
 import * as dotenv from 'dotenv'
 
-import createFile from './lib/createFile'
+import createFile from './utils/createFile'
 
 dotenv.config()
 

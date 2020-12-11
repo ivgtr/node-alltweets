@@ -30,6 +30,12 @@ const timelineEndPoint = 'https://api.twitter.com/1.1/statuses/user_timeline.jso
 //   })
 // }
 
+/**
+ * tweetを取得し、返す
+ * @param {string} twitterToken - TwitterBearerTokenをいれる
+ * @param {{screen_name: string,include_rts?: boolean | undefined,max_id?: string | undefined}} params - paramsを指定
+ * @returns {Promise<Tweet[]>} TweetのJSON配列を返す
+ */
 const getTweets = (twitterToken: string, params: params): Promise<Tweet[]> => {
   const headers = {
     Authorization: `Bearer ${twitterToken}`
@@ -55,6 +61,13 @@ const getTweets = (twitterToken: string, params: params): Promise<Tweet[]> => {
   })
 }
 
+/**
+ * tweetを取得し引数の配列に追加、取得した結果のlengthが1以下になるまで繰り返す
+ * @param {string} twitterToken - TwitterBearerTokenをいれる
+ * @param {{screen_name: string,include_rts?: boolean | undefined,max_id?: string | undefined}} params - paramsを指定
+ * @param {Tweet[]} json - これを元に、これより過去のデータを取得する
+ * @returns {Promise<Tweet[]>} TweetのJSON配列を返す
+ */
 const getAllTweets = async (
   twitterToken: string,
   params: params,
@@ -101,15 +114,5 @@ const getAllTweets = async (
     return json
   }
 }
-
-// const twitterRequest = async (
-//   twitterToken: string,
-//   params: params,
-//   json: Tweet[] = []
-// ): Promise<Tweet[]> => {
-//   const onepiece = await getAllTweets(twitterToken, params, json)
-//   // const onepiece = await getLimit(twitterToken)
-//   return onepiece
-// }
 
 export default getAllTweets

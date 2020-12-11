@@ -1,5 +1,10 @@
 import json from '../configs/error.json'
 
+/**
+ * errorコードを元に、error.jsonを参照してerrorテキストを返す
+ * @param {number} code - errorコード
+ * @returns {string} error.jsonを参照してerrorテキストを返す
+ */
 const returnError = (code: number): string => {
   const result = json.find((i) => {
     return i.code === code

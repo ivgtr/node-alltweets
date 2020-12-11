@@ -17,10 +17,8 @@ const checkProcess = (fileName: string, yaml: boolean) => {
 
 /**
  * tweetを取得し、jsonかyamlでファイルを書き出し、書き出したpathを返す
- * @param {string} twitterId - 取得したいTwitterIdを指定する
  * @param {string} token - 設定したTwitterBearerTokenをいれる
- * @param {boolean} rt - rtを表示するか指定する
- * @param {boolean} yaml - yaml形式で出力するか指定する
+ * @param {{twitterId:string,rt:boolean,yaml:boolean}} options - optionsを設定
  * @returns {Promise<string>} 書き出したpath
  */
 const allTweets = async (
