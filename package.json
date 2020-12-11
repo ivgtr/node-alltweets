@@ -17,10 +17,12 @@
   ],
   "scripts": {
     "start": "tsc -w",
-    "prebuild:cli": "rimraf lib",
-    "prebuild:module": "rimraf lib",
-    "build:cli": "ncc build src/cli.ts --out lib --minify",
-    "build:module": "ncc build src/index.ts --out lib"
+    "rename:cli": "node -e \"require('fs').rename('lib/index.js', 'lib/cli.js', function(err) { if (err) console.log(err); console.log('File successfully renamed!') })\"",
+    "prebuild": "rimraf lib",
+    "build:cli": "ncc build src/cli.ts -o lib -m && yarn rename:cli",
+    "build:module": "ncc build src/index.ts -o lib -m",
+    "build": "yarn build:cli && yarn build:module",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "axios": "^0.21.0",
@@ -38,6 +40,7 @@
     "@types/js-yaml": "^3.12.5",
     "@types/node": "^14.14.11",
     "@types/update-notifier": "^5.0.0",
+    "@vercel/ncc": "^0.25.1",
     "eslint": "^7.15.0",
     "eslint-config-sumikko": "^0.1.2",
     "husky": "^4.3.5",
