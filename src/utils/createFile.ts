@@ -9,10 +9,19 @@ const dir = process.cwd()
  * process.cwd()に同一ファイルがあるか調べる
  * @param {string} fileName - ファイル名を渡す
  * @param {boolean} yaml - yaml形式か
- * @returns {Promise<function | st>} ファイルを返す
+ * @returns {Promise<string[]>} ファイルを返す
  */
 const checkProcess = (fileName: string, yaml: boolean) => {
-  return []
+  const filePath = path.join(process.cwd(), fileName)
+  if (fs.existsSync(filePath)) {
+    if (yaml) {
+      return yamlJson.load(fs.readFileSync(filePath, 'utf8'))
+    } else {
+      return JSON.parse(fs.readFileSync(filePath, 'utf8'))
+    }
+  } else {
+    return []
+  }
 }
 
 /**
