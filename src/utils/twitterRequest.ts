@@ -6,29 +6,6 @@ import ora from 'ora'
 import getErrorLabel from './error'
 
 const timelineEndPoint = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
-// const limitEndPoint = 'https://api.twitter.com/1.1/application/rate_limit_status.json'
-
-// const getLimit = (twitterToken: string): Promise<any> => {
-//   const headers = {
-//     Authorization: `Bearer ${twitterToken}`
-//   }
-//   const params = {
-//     resources: 'statuses'
-//   }
-//   return new Promise((resolve, reject) => {
-//     axios
-//       .get(limitEndPoint, { headers, params })
-//       .then((response) => response.data)
-//       .then((result) => {
-//         resolve(result.resources)
-//         const count = result.resources.statuses['/statuses/user_timeline'].remaining as number
-//         if (typeof count === 'number') resolve(count)
-//       })
-//       .catch((err) => {
-//         reject(err.response.data.errors[0].code)
-//       })
-//   })
-// }
 
 /**
  * tweetを取得し、返す
@@ -90,7 +67,7 @@ const getAllTweets = async (
       const spinner = ora(`${chalk.bgRed('WAIT')} Twitter APIの上限により15分停止します`)
       spinner.color = 'yellow'
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           spinner.succeed(`${chalk.bgGreen('RUN')} 動作を再開します`)
           return resolve(getAllTweets(twitterToken, params, json))
