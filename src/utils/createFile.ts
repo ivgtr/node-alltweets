@@ -1,9 +1,9 @@
-import fs from 'fs'
-import path from 'path'
-import yamlJson from 'js-yaml'
-import getAllTweets from './twitterRequest'
+import fs from "fs";
+import yamlJson from "js-yaml";
+import path from "path";
+import getAllTweets from "./twitterRequest";
 
-const dir = process.cwd()
+const dir = process.cwd();
 
 /**
  * process.cwd()に同一ファイルがあるか調べる
@@ -12,17 +12,17 @@ const dir = process.cwd()
  * @returns {Promise<string[]>} ファイルを返す
  */
 const checkProcess = (fileName: string, yaml: boolean) => {
-  const filePath = path.join(process.cwd(), fileName)
+  const filePath = path.join(process.cwd(), fileName);
   if (fs.existsSync(filePath)) {
     if (yaml) {
-      return yamlJson.load(fs.readFileSync(filePath, 'utf8'))
+      return yamlJson.load(fs.readFileSync(filePath, "utf8"));
     } else {
-      return JSON.parse(fs.readFileSync(filePath, 'utf8'))
+      return JSON.parse(fs.readFileSync(filePath, "utf8"));
     }
   } else {
-    return []
+    return [];
   }
-}
+};
 
 /**
  * tweetを取得し、jsonかyamlでファイルを書き出し、書き出したpathを返す
@@ -33,36 +33,38 @@ const checkProcess = (fileName: string, yaml: boolean) => {
 const allTweets = async (
   token: string,
   options: {
-    twitterId: string
-    rt: boolean
-    yaml: boolean
-  } = { twitterId: '', rt: false, yaml: false }
+    twitterId: string;
+    rt: boolean;
+    yaml: boolean;
+  } = { twitterId: "", rt: false, yaml: false }
 ): Promise<string> => {
-  const fileName = options.yaml ? `${options.twitterId}.yaml` : `${options.twitterId}.json`
+  const fileName = options.yaml
+    ? `${options.twitterId}.yaml`
+    : `${options.twitterId}.json`;
 
-  const dirPath = path.join(dir, fileName)
+  const dirPath = path.join(dir, fileName);
 
-  const json = checkProcess(fileName, options.yaml)
+  const json = checkProcess(fileName, options.yaml);
 
   const params: params = {
     screen_name: options.twitterId,
-    include_rts: options.rt
-  }
+    include_rts: options.rt,
+  };
 
   await getAllTweets(token, params, json)
     .then((tweetData) => {
       if (options.yaml) {
-        const yamlData = yamlJson.dump(tweetData)
-        fs.writeFileSync(dirPath, yamlData)
+        const yamlData = yamlJson.dump(tweetData);
+        fs.writeFileSync(dirPath, yamlData);
       } else {
-        fs.writeFileSync(dirPath, JSON.stringify(tweetData, null, 2))
+        fs.writeFileSync(dirPath, JSON.stringify(tweetData, null, 2));
       }
     })
     .catch((err) => {
-      throw err
-    })
+      throw err;
+    });
 
-  return dirPath
-}
+  return dirPath;
+};
 
-export default allTweets
+export default allTweets;

@@ -1,11 +1,11 @@
-import axios from 'axios'
-import type { Status as Tweet } from 'twitter-d'
-import chalk from 'chalk'
-import ora from 'ora'
+import axios from "axios";
+import chalk from "chalk";
+import ora from "ora";
+import type { Status as Tweet } from "twitter-d";
+import getErrorLabel from "./error";
 
-import getErrorLabel from './error'
-
-const timelineEndPoint = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
+const timelineEndPoint =
+  "https://api.twitter.com/1.1/statuses/user_timeline.json";
 
 /**
  * tweetを取得し、返す
@@ -15,28 +15,24 @@ const timelineEndPoint = 'https://api.twitter.com/1.1/statuses/user_timeline.jso
  */
 const getTweets = (twitterToken: string, params: params): Promise<Tweet[]> => {
   const headers = {
-    Authorization: `Bearer ${twitterToken}`
-  }
+    Authorization: `Bearer ${twitterToken}`,
+  };
   const _params: paramsEx = {
     count: 200,
     exclude_replies: false,
     include_rts: false,
-    tweet_mode: 'extended',
-    ...params
-  }
+    tweet_mode: "extended",
+    ...params,
+  };
 
   return new Promise((resolve, reject) => {
     axios
       .get(timelineEndPoint, { headers, params: _params })
       .then((response) => response.data)
-      .then((result: Tweet[]) => {
-        return resolve(result)
-      })
-      .catch(async (err) => {
-        return reject(err.response)
-      })
-  })
-}
+      .then((result: Tweet[]) => resolve(result))
+      .catch(async (err) => reject(err.response));
+  });
+};
 
 /**
  * tweetを取得し引数の配列に追加、取得した結果のlengthが1以下になるまで繰り返す
@@ -54,24 +50,26 @@ const getAllTweets = async (
     const result = await getTweets(
       twitterToken,
       json.length ? { ...params, max_id: json.slice(-1)[0].id_str } : params
-    )
+    );
     if (result.length > 1) {
-      const _json = json.concat([...result])
-      return getAllTweets(twitterToken, params, _json)
+      const _json = json.concat([...result]);
+      return getAllTweets(twitterToken, params, _json);
     }
-    return json
+    return json;
   } catch (err) {
-    if (err.data['request']) {
-      throw `${chalk.bgRed('ERROR!')} 引数がおかしいよ`
+    if (err.data["request"]) {
+      throw `${chalk.bgRed("ERROR!")} 引数がおかしいよ`;
     } else if (err.data.errors[0].code === 88) {
-      const spinner = ora(`${chalk.bgRed('WAIT')} Twitter APIの上限により15分停止します`)
-      spinner.color = 'yellow'
+      const spinner = ora(
+        `${chalk.bgRed("WAIT")} Twitter APIの上限により15分停止します`
+      );
+      spinner.color = "yellow";
 
       return new Promise((resolve) => {
         setTimeout(() => {
-          spinner.succeed(`${chalk.bgGreen('RUN')} 動作を再開します`)
-          return resolve(getAllTweets(twitterToken, params, json))
-        }, 15 * 60 * 1000)
+          spinner.succeed(`${chalk.bgGreen("RUN")} 動作を再開します`);
+          return resolve(getAllTweets(twitterToken, params, json));
+        }, 15 * 60 * 1000);
 
         // const timer = setTimeout(() => {
         //   spinner.succeed(`${chalk.bgGreen('RUN')} 動作を再開します`)
@@ -82,10 +80,12 @@ const getAllTweets = async (
         //   clearTimeout(timer)
         //   return resolve(json)
         // })
-      })
+      });
     }
-    throw `${chalk.bgRed('ERROR!')} ${getErrorLabel(err.data.errors[0].code as number)}`
+    throw `${chalk.bgRed("ERROR!")} ${getErrorLabel(
+      err.data.errors[0].code as number
+    )}`;
   }
-}
+};
 
-export default getAllTweets
+export default getAllTweets;

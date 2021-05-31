@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
+    "target": "es2020",
+    "module": "esnext",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -10,8 +10,8 @@
     "strictNullChecks": true,
     "allowJs": true,
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
+    "declarationMap": false,
+    "sourceMap": false,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -23,13 +23,6 @@
     "noEmitOnError": true,
     "resolveJsonModule": true
   },
-  "include": [
-    "./src/*",
-    "./src/**/*",
-  ],
-  "exclude": [
-    "node_modules",
-    "lib",
-    "dist",
-  ]
+  "include": ["./src/*", "./src/**/*"],
+  "exclude": ["node_modules", "lib", "dist"]
 }

@@ -1,14 +1,13 @@
-import meow from 'meow'
-import chalk from 'chalk'
-import updateNotifier from 'update-notifier'
-import type { Package } from 'update-notifier'
-import * as dotenv from 'dotenv'
+import chalk from "chalk";
+import * as dotenv from "dotenv";
+import meow from "meow";
+import type { Package } from "update-notifier";
+import updateNotifier from "update-notifier";
+import createFile from "./createFile";
 
-import createFile from './createFile'
+dotenv.config();
 
-dotenv.config()
-
-const { TWITTER_BEARER_TOKEN: bearerToken } = process.env
+const { TWITTER_BEARER_TOKEN: bearerToken } = process.env;
 
 export default () => {
   const cli = meow(
@@ -27,50 +26,60 @@ export default () => {
     {
       flags: {
         retweets: {
-          type: 'boolean',
-          alias: 'r',
-          default: false
+          type: "boolean",
+          alias: "r",
+          default: false,
         },
         yaml: {
-          type: 'boolean',
-          alias: 'y',
-          default: false
+          type: "boolean",
+          alias: "y",
+          default: false,
         },
         bearer: {
-          type: 'string',
-          alias: 'b'
-        }
-      }
+          type: "string",
+          alias: "b",
+        },
+      },
     }
-  )
+  );
 
-  updateNotifier({ pkg: cli.pkg as Package }).notify()
+  updateNotifier({ pkg: cli.pkg as Package }).notify();
 
-  const { input, flags } = cli
+  const { input, flags } = cli;
   if (flags.h) {
-    cli.showHelp()
-    return
+    cli.showHelp();
+    return;
   }
   if (flags.v) {
-    cli.showVersion()
-    return
+    cli.showVersion();
+    return;
   }
 
   if (!input[0]) {
-    console.log(`${chalk.bgRed('ERROR!')} 取得するTwitterIDを入力してください`)
-    return
+    console.log(`${chalk.bgRed("ERROR!")} 取得するTwitterIDを入力してください`);
+    return;
   }
-  const token = flags.bearer ? flags.bearer : bearerToken ? bearerToken : undefined
+  const token = flags.bearer
+    ? flags.bearer
+    : bearerToken
+    ? bearerToken
+    : undefined;
   if (!token) {
-    console.log(`${chalk.bgRed('ERROR!')} TWITTER_BEARER_TOKENを指定してください`)
-    return
+    console.log(
+      `${chalk.bgRed("ERROR!")} TWITTER_BEARER_TOKENを指定してください`
+    );
+    return;
   }
 
-  createFile(token, { twitterId: input[0], rt: flags.retweets, yaml: flags.yaml })
+  createFile(token, {
+    twitterId: input[0],
+    rt: flags.retweets,
+    yaml: flags.yaml,
+  })
     .then((path: string) => {
-      console.log(`${chalk.bgGreen('SUCCESS!')} ${path} に出力されました`)
+      console.log(`${chalk.bgGreen("SUCCESS!")} ${path} に出力されました`);
     })
     .catch((err) => {
-      console.log(err)
-    })
-}
+      console.log(err);
+    });
+};

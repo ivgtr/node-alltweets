@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import command from './utils/command'
+import command from "./utils/command";
 
-export default command()
+export default command();
