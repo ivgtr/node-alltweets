@@ -1,6 +1,8 @@
 node_modules/
 src/
 dist/
+.github/
+
 
 .rpt2_cache
 
@@ -24,4 +26,7 @@ npm-debug.log*
 
 rollup.config.js
 
+renovate.json
+
 tsconfig.json
+tsconfig-build.json
