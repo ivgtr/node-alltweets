@@ -58,7 +58,6 @@ const tweetDate = await alltweets({
   options : {
     twitterId: "SCREEN_NAME",    // 取得したいSCREEN_NAMEを指定
     rt: false,                   // リツイートを含むか指定
-    yaml: false                  // yaml形式で出力するか、json形式で出力するか指定
   },
   json : []                      // 途中まで実行して保存されたデータを指定してもいいし、しなくてもいい
 })

@@ -57,7 +57,6 @@ const tweetDate = await alltweets({
   options : {
     twitterId: "SCREEN_NAME",    // Get SCREEN_NAME.
     rt: false,                   // Include retweets.
-    yaml: false                  // Output YAML instead of JSON.
   },
   json : []                      // You can run it halfway through and specify the saved data, or not.
 })
