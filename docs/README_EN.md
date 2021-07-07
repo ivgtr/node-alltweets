@@ -50,9 +50,9 @@ _howto:<SCREEN_NAME> = The `xxxx` part of @`xxxx`_
 
 #### Using node-alltweets from JS/TS Modules
 ```js
-import alltweets from "alltweets"
+import { alltweets } from "alltweets"
 
-const tweetDate = await alltweets(
+const tweetDate = await alltweets({
   token : "TWITTER_BEARER_TOKEN", // Set TWITTER_BEARER_TOKEN.
   options : {
     twitterId: "SCREEN_NAME",    // Get SCREEN_NAME.
@@ -60,7 +60,7 @@ const tweetDate = await alltweets(
     yaml: false                  // Output YAML instead of JSON.
   },
   json : []                      // You can run it halfway through and specify the saved data, or not.
-)
+})
 
 console.log(tweetDate)
 // => [{tweetData}, {tweetData}, ...]

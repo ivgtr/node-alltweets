@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "esnext",
+    "target": "es2019",
+    "lib": [
+      "es2019",
+      "es2020.bigint",
+      "es2020.string",
+      "es2020.symbol.wellknown"
+    ],
+    "module": "ESNext",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "strictNullChecks": true,
     "allowJs": true,
     "declaration": true,
-    "declarationMap": false,
-    "sourceMap": false,
-    "noImplicitAny": true,
+    "declarationMap": true,
+    "sourceMap": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -20,9 +23,9 @@
     "rootDir": "./src",
     "baseUrl": "./",
     "outDir": "./dist",
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "resolveJsonModule": true
   },
-  "include": ["./src/*", "./src/**/*"],
-  "exclude": ["node_modules", "lib", "dist"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "tests"]
 }

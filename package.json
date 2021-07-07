@@ -3,10 +3,14 @@
   "version": "1.3.1",
   "description": "Downloads someone's all tweets",
   "type": "module",
-  "module": "./lib/index.js",
+  "module": "./lib/index.cjs",
   "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "bin": {
-    "alltweets": "./lib/cli.cjs"
+    "alltweets": "./lib/cli.js"
+  },
+  "engines": {
+    "node": ">= 12.2.0"
   },
   "author": {
     "name": "ivgtr",
@@ -26,42 +30,50 @@
     "cli",
     "cli-app"
   ],
+  "files": [
+    "lib",
+    "src",
+    "configs/error.json",
+    "docs/README_EN.md"
+  ],
   "scripts": {
+    "dev": "node --loader ts-node/esm ./src/cli.ts",
     "start": "tsc -w",
-    "lint": "eslint *.js src/**/*.ts src/*.ts",
-    "prebuild": "rimraf lib",
-    "build": "rollup -c --exports default && tsc --emitDeclarationOnly -p tsconfig-build.json",
-    "prepublishOnly": "yarn build"
+    "type-check": "tsc --noEmit",
+    "type-build": "tsc --project ./tsconfig-build.json --emitDeclarationOnly",
+    "prebuild": "node -e 'fs.rmSync(`lib`, {recursive:true, force:true})'",
+    "build": "rollup -c && npm run type-build",
+    "format": "prettier -w ./src/*"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "chalk": "^4.1.1",
     "dotenv": "^10.0.0",
     "js-yaml": "^4.1.0",
-    "meow": "9.0.0",
-    "ora": "^5.4.0",
-    "twitter-d": "^0.4.0",
+    "meow": "10.0.1",
+    "ora": "^5.4.1",
     "update-notifier": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "7.14.6",
     "@babel/preset-env": "7.14.7",
-    "@babel/preset-typescript": "7.14.5",
     "@rollup/plugin-babel": "5.3.0",
     "@rollup/plugin-commonjs": "19.0.0",
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-node-resolve": "13.0.0",
     "@rollup/plugin-typescript": "8.2.1",
-    "@types/js-yaml": "4.0.1",
-    "@types/node": "15.6.1",
+    "@types/js-yaml": "4.0.2",
+    "@types/node": "16.0.0",
     "@types/update-notifier": "5.0.1",
     "eslint": "7.30.0",
     "eslint-config-sumikko": "1.2.1",
-    "rollup": "2.52.7",
+    "prettier": "^2.3.2",
+    "rollup": "2.52.8",
     "rollup-plugin-auto-external": "2.0.0",
     "rollup-plugin-preserve-shebang": "1.0.1",
     "rollup-plugin-terser": "7.0.2",
-    "tslib": "2.3.0",
+    "ts-node": "^10.0.0",
+    "twitter-d": "^0.4.0",
     "typescript": "4.3.5"
   },
   "license": "MIT"

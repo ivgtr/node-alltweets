@@ -1,70 +1,83 @@
 import fs from "fs";
-import yamlJson from "js-yaml";
+import yaml from "js-yaml";
 import path from "path";
-import getAllTweets from "./twitterRequest";
+import type { Status as Tweet } from "twitter-d";
 
-const dir = process.cwd();
+const BASE_DIR = process.cwd();
 
 /**
  * process.cwd()に同一ファイルがあるか調べる
  * @param {string} fileName - ファイル名を渡す
- * @param {boolean} yaml - yaml形式か
- * @returns {Promise<string[]>} ファイルを返す
+ * @returns {boolean} 存在するか返す
  */
-const checkProcess = (fileName: string, yaml: boolean) => {
-  const filePath = path.join(process.cwd(), fileName);
-  if (fs.existsSync(filePath)) {
-    if (yaml) {
-      return yamlJson.load(fs.readFileSync(filePath, "utf8"));
+const isDir = (filePath: string) => {
+  try {
+    fs.accessSync(path.join(filePath));
+
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * optionから既にファイルが生成されてるか確認、生成されてたらjsonで返す
+ * @param {{twitterId:string,isYaml:boolean}} options - optionsを設定
+ * @returns {Promise<Tweet[]>} json
+ */
+export const init = async (options: {
+  twitterId: string;
+  isYaml: boolean;
+}): Promise<{ defaultJson: Tweet[]; filePath: string }> => {
+  const { twitterId = "", isYaml = false } = options;
+  const fileName = isYaml ? `${twitterId}.yaml` : `${twitterId}.json`;
+
+  const filePath = path.join(BASE_DIR, fileName);
+
+  try {
+    if (isDir(fileName)) {
+      if (isYaml) {
+        const yamlJson = yaml.load(fs.readFileSync(filePath, "utf8"), {
+          json: true,
+        }) as string;
+        return { defaultJson: JSON.parse(yamlJson), filePath };
+      } else {
+        return {
+          defaultJson: JSON.parse(fs.readFileSync(filePath, "utf8")),
+          filePath,
+        };
+      }
     } else {
-      return JSON.parse(fs.readFileSync(filePath, "utf8"));
+      return { defaultJson: [], filePath };
     }
-  } else {
-    return [];
+  } catch {
+    return { defaultJson: [], filePath };
   }
 };
 
 /**
  * tweetを取得し、jsonかyamlでファイルを書き出し、書き出したpathを返す
- * @param {string} token - 設定したTwitterBearerTokenをいれる
- * @param {{twitterId:string,rt:boolean,yaml:boolean}} options - optionsを設定
+ * @param {{filePath:string,resultJson:Tweet[],isYaml:boolean}} options - optionsを設定
  * @returns {Promise<string>} 書き出したpath
  */
-const allTweets = async (
-  token: string,
-  options: {
-    twitterId: string;
-    rt: boolean;
-    yaml: boolean;
-  } = { twitterId: "", rt: false, yaml: false }
-): Promise<string> => {
-  const fileName = options.yaml
-    ? `${options.twitterId}.yaml`
-    : `${options.twitterId}.json`;
-
-  const dirPath = path.join(dir, fileName);
-
-  const json = checkProcess(fileName, options.yaml);
-
-  const params: params = {
-    screen_name: options.twitterId,
-    include_rts: options.rt,
-  };
-
-  await getAllTweets(token, params, json)
-    .then((tweetData) => {
-      if (options.yaml) {
-        const yamlData = yamlJson.dump(tweetData);
-        fs.writeFileSync(dirPath, yamlData);
-      } else {
-        fs.writeFileSync(dirPath, JSON.stringify(tweetData, null, 2));
-      }
-    })
-    .catch((err) => {
-      throw err;
-    });
-
-  return dirPath;
+export const createFile = async ({
+  filePath,
+  resultJson,
+  isYaml,
+}: {
+  filePath: string;
+  resultJson: Tweet[];
+  isYaml: boolean;
+}): Promise<string> => {
+  try {
+    if (isYaml) {
+      const yamlData = yaml.dump(resultJson);
+      fs.writeFileSync(filePath, yamlData);
+    } else {
+      fs.writeFileSync(filePath, JSON.stringify(resultJson, null, 2));
+    }
+    return filePath;
+  } catch (e) {
+    throw new Error(e);
+  }
 };
-
-export default allTweets;

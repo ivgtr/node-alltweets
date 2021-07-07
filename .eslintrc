@@ -1,11 +1,21 @@
 {
-  "extends": ["eslint-config-sumikko", "eslint-config-sumikko/node", "eslint-config-sumikko/ts", "eslint-config-sumikko/prettier"],
+  "extends": [
+    "eslint-config-sumikko",
+    "eslint-config-sumikko/node",
+    "eslint-config-sumikko/module",
+    "eslint-config-sumikko/ts",
+    "eslint-config-sumikko/prettier"
+  ],
   "rules": {
-    "no-underscore-dangle":0,
-    "camelcase": 0,
-    "node/shebang": 0
-  },
-   "parserOptions": {
-      "sourceType": "module"
+    "node/shebang": 0,
+    "import/no-useless-path-segments": 0,
+    "import/no-duplicates": 0,
+    "import/order": 0,
+    "node/no-unpublished-import": [
+      "error",
+      {
+        "allowModules": ["twitter-d"]
+      }
+    ]
   }
 }

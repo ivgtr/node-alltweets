@@ -2,9 +2,22 @@ import axios from "axios";
 import chalk from "chalk";
 import ora from "ora";
 import type { Status as Tweet } from "twitter-d";
-import getErrorLabel from "./error";
+import getErrorLabel from "./error.js";
 
-const timelineEndPoint =
+export type Options = {
+  screen_name: string;
+  include_rts?: boolean;
+  max_id?: string;
+};
+
+export type OverOptions = Options & {
+  count: number;
+  exclude_replies: boolean;
+  include_rts: boolean;
+  tweet_mode: string;
+};
+
+const TIMELINE_ENDPOINT =
   "https://api.twitter.com/1.1/statuses/user_timeline.json";
 
 /**
@@ -13,11 +26,11 @@ const timelineEndPoint =
  * @param {{screen_name: string,include_rts?: boolean | undefined,max_id?: string | undefined}} params - paramsを指定
  * @returns {Promise<Tweet[]>} TweetのJSON配列を返す
  */
-const getTweets = (twitterToken: string, params: params): Promise<Tweet[]> => {
+const getTweets = (twitterToken: string, params: Options): Promise<Tweet[]> => {
   const headers = {
     Authorization: `Bearer ${twitterToken}`,
   };
-  const _params: paramsEx = {
+  const _params: OverOptions = {
     count: 200,
     exclude_replies: false,
     include_rts: false,
@@ -27,7 +40,7 @@ const getTweets = (twitterToken: string, params: params): Promise<Tweet[]> => {
 
   return new Promise((resolve, reject) => {
     axios
-      .get(timelineEndPoint, { headers, params: _params })
+      .get(TIMELINE_ENDPOINT, { headers, params: _params })
       .then((response) => response.data)
       .then((result: Tweet[]) => resolve(result))
       .catch(async (err) => reject(err.response));
@@ -41,15 +54,15 @@ const getTweets = (twitterToken: string, params: params): Promise<Tweet[]> => {
  * @param {Tweet[]} json - これを元に、これより過去のデータを取得する
  * @returns {Promise<Tweet[]>} TweetのJSON配列を返す
  */
-const getAllTweets = async (
+export const getAllTweets = async (
   twitterToken: string,
-  params: params,
+  params: Options,
   json: Tweet[] = []
 ): Promise<Tweet[]> => {
   try {
     const result = await getTweets(
       twitterToken,
-      json.length ? { ...params, max_id: json.slice(-1)[0].id_str } : params
+      json.length ? { ...params, max_id: json[json.length - 1].id_str } : params
     );
     if (result.length > 1) {
       const _json = json.concat([...result]);
@@ -69,17 +82,7 @@ const getAllTweets = async (
         setTimeout(() => {
           spinner.succeed(`${chalk.bgGreen("RUN")} 動作を再開します`);
           return resolve(getAllTweets(twitterToken, params, json));
-        }, 15 * 60 * 1000);
-
-        // const timer = setTimeout(() => {
-        //   spinner.succeed(`${chalk.bgGreen('RUN')} 動作を再開します`)
-        //   return resolve(getAllTweets(twitterToken, params, json))
-        // }, 15 * 60 * 1000)
-        // process.on('SIGINT', () => {
-        //   spinner.succeed(`${chalk.bgYellow('FINISH')} 動作を終了し、取得したデータを保存します`)
-        //   clearTimeout(timer)
-        //   return resolve(json)
-        // })
+        }, 60 * 15 * 1000);
       });
     }
     throw `${chalk.bgRed("ERROR!")} ${getErrorLabel(
@@ -87,5 +90,3 @@ const getAllTweets = async (
     )}`;
   }
 };
-
-export default getAllTweets;

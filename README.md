@@ -51,9 +51,9 @@ _howto:<SCREEN_NAME>=@xxxxのxxxx部分_
 
 #### Using node-alltweets from JS/TS Modules
 ```js
-import alltweets from "alltweets"
+import { alltweets } from "alltweets"
 
-const tweetDate = await alltweets(
+const tweetDate = await alltweets({
   token : "TWITTER_BEARER_TOKEN", // TWITTER_BEARER_TOKENを指定
   options : {
     twitterId: "SCREEN_NAME",    // 取得したいSCREEN_NAMEを指定
@@ -61,7 +61,7 @@ const tweetDate = await alltweets(
     yaml: false                  // yaml形式で出力するか、json形式で出力するか指定
   },
   json : []                      // 途中まで実行して保存されたデータを指定してもいいし、しなくてもいい
-)
+})
 
 console.log(tweetDate)
 // => [{tweetData}, {tweetData}, ...]
