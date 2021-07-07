@@ -1,6 +1,6 @@
 {
   "name": "alltweets",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Downloads someone's all tweets",
   "type": "module",
   "module": "./lib/index.cjs",
